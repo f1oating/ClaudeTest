@@ -1,0 +1,41 @@
+name: Delete stale branches
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  delete-branches:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Delete stale branches
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branches = [
+              'claude/create-index-html-1qLEV',
+              'claude/create-readme-c0Pl9',
+              'claude/init-git-Q7Sxn',
+              'copilot/create-vk-style-php-site',
+              'copilot/fix-sqlite3-class-error',
+            ];
+            for (const branch of branches) {
+              try {
+                await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: `heads/${branch}`,
+                });
+                console.log(`Deleted branch: ${branch}`);
+              } catch (e) {
+                if (e.status === 422) {
+                  console.log(`Branch not found (already deleted): ${branch}`);
+                } else {
+                  throw e;
+                }
+              }
+            }
