@@ -124,6 +124,55 @@ a:hover {
     font-size: 13px;
 }
 
+/* ---- HEADER NOTIFICATION ICONS --------------------------- */
+#header-icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 12px;
+}
+
+.hdr-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    color: #d0e8f8;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.hdr-icon:hover {
+    background: rgba(255,255,255,0.15);
+    text-decoration: none;
+}
+
+.hdr-icon-img {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.hdr-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #e0720e;
+    color: #fff;
+    font-size: 9px;
+    font-weight: bold;
+    min-width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    line-height: 1;
+}
+
 #header-user img {
     width: 28px;
     height: 28px;
@@ -389,6 +438,31 @@ a:hover {
     margin-top: 6px;
 }
 
+/* Wall form attachment toolbar */
+.wall-form-toolbar {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.attach-btn {
+    background: none;
+    border: 1px solid #c9d8e8;
+    border-radius: 3px;
+    color: #5b82a8;
+    font-size: 11px;
+    padding: 3px 8px;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.attach-btn:hover {
+    background: #eef4fb;
+    border-color: #7aaad4;
+}
+
 /* Wall posts */
 .wall-post {
     padding: 10px 12px;
@@ -435,9 +509,49 @@ a:hover {
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .wall-post .post-meta a { color: #7aaad4; font-size: 11px; }
+
+/* Post action buttons (like, comment, share) */
+.post-actions {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.post-action-btn {
+    background: none;
+    border: 1px solid #d8e4ef;
+    border-radius: 3px;
+    color: #5b82a8;
+    font-size: 11px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.post-action-btn:hover {
+    background: #eef4fb;
+    border-color: #7aaad4;
+    color: #2b587a;
+    text-decoration: none;
+}
+
+.post-action-btn.liked {
+    background: #fef0e6;
+    border-color: #e0720e;
+    color: #e0720e;
+}
+
+.action-count {
+    font-weight: bold;
+}
 
 .wall-empty {
     padding: 24px;
@@ -497,6 +611,18 @@ a:hover {
     justify-content: center;
     font-size: 18px;
     margin-bottom: 2px;
+    position: relative;
+}
+
+.friend-online {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5cb85c;
+    border: 1px solid #fff;
 }
 
 .friend-item .friend-name {
