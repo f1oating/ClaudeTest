@@ -59,6 +59,20 @@ function time_ago(string $datetime): string {
         <input type="text" placeholder="Поиск по ВКонтакте">
         <button type="button">Найти</button>
     </div>
+    <div id="header-icons">
+        <a href="#" class="hdr-icon" title="Заявки в друзья">
+            <span class="hdr-icon-img">👥</span>
+            <span class="hdr-badge">2</span>
+        </a>
+        <a href="#" class="hdr-icon" title="Сообщения">
+            <span class="hdr-icon-img">✉️</span>
+            <span class="hdr-badge">3</span>
+        </a>
+        <a href="#" class="hdr-icon" title="Уведомления">
+            <span class="hdr-icon-img">🔔</span>
+            <span class="hdr-badge">5</span>
+        </a>
+    </div>
     <div id="header-user">
         <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#b0c8e0,#d4e4f4);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;font-size:14px;">👤</div>
         Иван Петров
@@ -142,6 +156,11 @@ function time_ago(string $datetime): string {
                 <form action="post_wall.php" method="POST">
                     <input type="hidden" name="csrf_token" value="<?= h($_SESSION['csrf_token']) ?>">
                     <textarea name="text" placeholder="Напишите что-нибудь на стене..."></textarea>
+                    <div class="wall-form-toolbar">
+                        <button type="button" class="attach-btn" title="Прикрепить фотографию">📷 Фото</button>
+                        <button type="button" class="attach-btn" title="Прикрепить ссылку">🔗 Ссылка</button>
+                        <button type="button" class="attach-btn" title="Вставить смайл">😊 Смайл</button>
+                    </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-blue">Отправить</button>
                     </div>
@@ -160,8 +179,17 @@ function time_ago(string $datetime): string {
                         <div class="post-text"><?= nl2br(h($post['text'])) ?></div>
                         <div class="post-meta">
                             <span><?= h(time_ago($post['created_at'])) ?></span>
-                            <a href="#">Комментировать</a>
-                            <a href="#">Мне нравится</a>
+                            <div class="post-actions">
+                                <button type="button" class="post-action-btn like-btn" title="Мне нравится">
+                                    <span class="action-icon">👍</span> Нравится <span class="action-count">0</span>
+                                </button>
+                                <button type="button" class="post-action-btn" title="Комментировать">
+                                    <span class="action-icon">💬</span> Комментировать
+                                </button>
+                                <button type="button" class="post-action-btn" title="Поделиться">
+                                    <span class="action-icon">↪</span> Поделиться
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -182,12 +210,19 @@ function time_ago(string $datetime): string {
             <div class="friends-list">
                 <?php
                 $friends = [
-                    ['👩', 'Анна'],['👨', 'Сергей'],['👩', 'Мария'],
-                    ['👦', 'Алёша'],['👧', 'Катя'],  ['👨', 'Дима'],
+                    ['👩', 'Анна',   true],
+                    ['👨', 'Сергей', false],
+                    ['👩', 'Мария',  true],
+                    ['👦', 'Алёша',  false],
+                    ['👧', 'Катя',   true],
+                    ['👨', 'Дима',   false],
                 ];
                 foreach ($friends as $f): ?>
                 <div class="friend-item">
-                    <div class="friend-avatar"><?= $f[0] ?></div>
+                    <div class="friend-avatar">
+                        <?= $f[0] ?>
+                        <?php if ($f[2]): ?><span class="friend-online"></span><?php endif; ?>
+                    </div>
                     <div class="friend-name"><?= $f[1] ?></div>
                 </div>
                 <?php endforeach; ?>
@@ -243,6 +278,22 @@ function time_ago(string $datetime): string {
     <a href="#">Реклама</a> &nbsp;·&nbsp;
     <a href="#">Разработчикам</a>
 </div>
+
+<script>
+document.querySelectorAll('.like-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var countEl = btn.querySelector('.action-count');
+        var count = parseInt(countEl.textContent, 10);
+        if (btn.classList.contains('liked')) {
+            btn.classList.remove('liked');
+            countEl.textContent = Math.max(0, count - 1);
+        } else {
+            btn.classList.add('liked');
+            countEl.textContent = count + 1;
+        }
+    });
+});
+</script>
 
 </body>
 </html>
